@@ -8,7 +8,7 @@ namespace mix_coffeeshop_web.Models
     {
         [BsonId]
         public int Id { get; set; }
-        public IEnumerable<string> ProductIds { get; set; }
+        public Dictionary<int, int> OrderedProducts { get; set; }
         public string Username { get; set; }
     }
 }

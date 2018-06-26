@@ -23,10 +23,18 @@ namespace mix_coffeeshop_web.Controllers
         [HttpPost]
         public OrderProductResponse OrderProduct([FromBody]Order order)
         {
-            if (order == null || order.ProductIds == null || !order.ProductIds.Any())
+            if (order == null || order.OrderedProducts == null || !order.OrderedProducts.Any())
             {
                 return new OrderProductResponse { Message = "ไม่พบเมนูที่จะสั่ง", };
-            };
+            }
+
+            var productIds = order.OrderedProducts.GroupBy(p => p.Key).Select(p => p.Key);
+            var products = productRepo.GetAllProducts();
+            var filteredProducts = products.Where(p => productIds.Contains(p.Id));
+            if (filteredProducts.Count() != productIds.Count())
+            {
+                return new OrderProductResponse { Message = "ไม่พบสินค้าบางรายการ กรุณาสั่งใหม่อีกครั้ง", };
+            }
 
             throw new NotImplementedException();
         }
