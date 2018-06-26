@@ -36,7 +36,7 @@ namespace mix_coffeeshop_web.Controllers
                 return new OrderProductResponse { Message = "ไม่พบสินค้าบางรายการ กรุณาสั่งใหม่อีกครั้ง", };
             }
 
-            if (filteredProducts.Any(p => p.Stock < request.OrderedProducts.First(op => op.Key == p.Id).Value))
+            if (filteredProducts.Any(p => p.HasStock && p.Stock < request.OrderedProducts.First(op => op.Key == p.Id).Value))
             {
                 return new OrderProductResponse { Message = "สินค้าบางรายการมีไม่พอ กรุณาสั่งใหม่อีกครั้ง", };
             }
