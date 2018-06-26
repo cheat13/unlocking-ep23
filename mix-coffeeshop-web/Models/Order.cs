@@ -7,8 +7,10 @@ namespace mix_coffeeshop_web.Models
     public class Order
     {
         [BsonId]
-        public int Id { get; set; }
-        public Dictionary<int, int> OrderedProducts { get; set; }
+        public string Id { get; set; }
+        public IEnumerable<Product> OrderedProducts { get; set; }
         public string Username { get; set; }
+        public DateTime OrderDate { get; set; }
+        public string ReferenceCode { get; set; }
     }
 }

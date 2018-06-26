@@ -21,27 +21,37 @@ namespace mix_coffeeshop_web.Controllers
         }
 
         [HttpPost]
-        public OrderProductResponse OrderProduct([FromBody]Order order)
+        public OrderProductResponse OrderProduct([FromBody]OrderProductRequest request)
         {
-            if (order == null || order.OrderedProducts == null || !order.OrderedProducts.Any())
+            if (request == null || request.OrderedProducts == null || !request.OrderedProducts.Any())
             {
                 return new OrderProductResponse { Message = "ไม่พบเมนูที่จะสั่ง", };
             }
 
-            var productIds = order.OrderedProducts.Select(p => p.Key);
+            var productIds = request.OrderedProducts.Select(p => p.Key);
             var products = productRepo.GetAllProducts();
-            var filteredProducts = products.Where(p => productIds.Contains(p.Id));
+            var filteredProducts = products.Where(p => productIds.Contains(p.Id)).ToList();
             if (filteredProducts.Count() != productIds.Count())
             {
                 return new OrderProductResponse { Message = "ไม่พบสินค้าบางรายการ กรุณาสั่งใหม่อีกครั้ง", };
             }
 
-            if (filteredProducts.Any(p => p.Stock < order.OrderedProducts.First(op => op.Key == p.Id).Value))
+            if (filteredProducts.Any(p => p.Stock < request.OrderedProducts.First(op => op.Key == p.Id).Value))
             {
                 return new OrderProductResponse { Message = "สินค้าบางรายการมีไม่พอ กรุณาสั่งใหม่อีกครั้ง", };
             }
+            var id = Guid.NewGuid().ToString();
+            var order = new Order
+            {
+                Id = id,
+                OrderedProducts = filteredProducts,
+                ReferenceCode = id.Substring(5),
+                OrderDate = DateTime.UtcNow,
+                Username = request.Username,
+            };
+            orderRepo.CreateOrder(order);
 
-            throw new NotImplementedException();
+            return new OrderProductResponse { Message = "สั่งเมนูสำเร็จ กรุณาชำระเงินที่เค้าเตอร์", ReferenceCode = order.ReferenceCode, };
         }
     }
 }
