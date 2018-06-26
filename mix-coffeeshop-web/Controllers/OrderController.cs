@@ -23,6 +23,11 @@ namespace mix_coffeeshop_web.Controllers
         [HttpPost]
         public OrderProductResponse OrderProduct([FromBody]Order order)
         {
+            if (order == null || order.ProductIds == null || !order.ProductIds.Any())
+            {
+                return new OrderProductResponse { Message = "ไม่พบเมนูที่จะสั่ง", };
+            };
+
             throw new NotImplementedException();
         }
     }

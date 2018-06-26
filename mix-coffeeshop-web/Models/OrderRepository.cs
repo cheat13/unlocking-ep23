@@ -29,7 +29,8 @@ namespace mix_coffeeshop_web.Models
 
         public void CreateOrder(Order order)
         {
-            throw new NotImplementedException();
+            var Collection = database.GetCollection<Order>("orders");
+            Collection.InsertOne(order);
         }
     }
 }
