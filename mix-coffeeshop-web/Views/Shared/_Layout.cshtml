@@ -17,34 +17,29 @@
     </environment>
 </head>
 <body>
-    <div class="navbar">
-    <nav class="nav navbar-inverse">
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">
-                    <img src="~/images/mix.png" height="100%"></a>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inverse bg-warning">
+            <div class="container">
+                <div class="navbar-collapse collapse">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#"><img src="~/images/mix.png" style="width:45px;margin-top: -13px"></a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"><a  asp-area="" asp-controller="Home" asp-action="Index">รายการสั่งซื้อ</a></li>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "History" ? "active" : "")"><a asp-area="" asp-controller="Home" asp-action="History">ประวัติการสั่งซื้อ</a></li>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "MenuManager" || ViewContext.RouteData.Values["Action"].ToString() == "AddItem" || ViewContext.RouteData.Values["Action"].ToString() == "EditItem" ? "active" : "")"><a asp-area="" asp-controller="Home" asp-action="MenuManager">จัดการเมนู</a></li>
+                    </ul>
+                    <div class="navbar-collapse collapse navbar-right">
+                        <button class="btn btn-warning navbar-btn">เข้าสู่ระบบ</button>
+                    </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">TH/EN</a></li>
+                    </ul>
                 </div>
-            <div class="navbar-collapse collapse navbar-right">
-                    <button class="btn btn-warning navbar-btn">เข้าสู่ระบบ</button>
-            </div>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">TH/EN</a></li>
-                </ul>
-        </div>
-    </nav>
-    <div class="navbar-inverse bg-warning">
-        <div class="container">
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"><a  asp-area="" asp-controller="Home" asp-action="Index">รายการสั่งซื้อ</a></li>
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")"><a asp-area="" asp-controller="Home" asp-action="About">ประวัติการสั่งซื้อ</a></li>
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" || ViewContext.RouteData.Values["Action"].ToString() == "AddItem"? "active" : "")"><a asp-area="" asp-controller="Home" asp-action="MenuManager">จัดการเมนู</a></li>
-                </ul>
             </div>
         </div>
     </div>
-    </div>
-    <div class="container body-content">
+    <div class="container body-content" style="padding-top: 60px">
         @RenderBody()
     </div>
 

@@ -11,6 +11,7 @@ namespace mix_coffeeshop_web.Models
         public IEnumerable<Product> OrderedProducts { get; set; }
         public string Username { get; set; }
         public DateTime OrderDate { get; set; }
+        public DateTime? PaidDate { get; set; }
         public string ReferenceCode { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace mix_coffeeshop_web.Models
 {
     public class OrderProductRequest
     {
-        public Dictionary<int, int> OrderedProducts { get; set; }
+        public IEnumerable<KeyValuePair<int, int>> OrderedProducts { get; set; }
         public string Username { get; set; }
     }
 }

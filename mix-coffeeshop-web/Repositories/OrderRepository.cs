@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Security.Authentication;
 using mix_coffeeshop_web.Models;
@@ -9,6 +10,8 @@ namespace mix_coffeeshop_web.Repositories
 {
     public interface IOrderRepository
     {
+        Order Get(Expression<Func<Order, bool>> expression);
+        IEnumerable<Order> List(Expression<Func<Order, bool>> expression);
         void CreateOrder(Order order);
     }
 
@@ -26,6 +29,16 @@ namespace mix_coffeeshop_web.Repositories
             var mongoClient = new MongoClient(settings);
             var database = mongoClient.GetDatabase(config.DatabaseName);
             Collection = database.GetCollection<Order>("orders");
+        }
+
+        public Order Get(Expression<Func<Order, bool>> expression)
+        {
+            return Collection.Find(expression).FirstOrDefault();
+        }
+
+        public IEnumerable<Order> List(Expression<Func<Order, bool>> expression)
+        {
+            return Collection.Find(expression).ToList();
         }
 
         public void CreateOrder(Order order)

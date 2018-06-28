@@ -9,7 +9,7 @@ using mix_coffeeshop_web.Repositories;
 
 namespace mix_coffeeshop_web.Controllers
 {
-    [Route("[controller]/api/[action]")]
+    [Route("api/[controller]/[action]")]
     public class OrderController : Controller
     {
         private IProductRepository productRepo;
@@ -19,6 +19,12 @@ namespace mix_coffeeshop_web.Controllers
         {
             this.productRepo = productRepo;
             this.orderRepo = orderRepo;
+        }
+
+        [HttpGet("{referenceCode}")]
+        public Order GetByReferenceCode(string referenceCode)
+        {
+            return orderRepo.Get(o => o.ReferenceCode == referenceCode);
         }
 
         [HttpPost]
@@ -46,7 +52,7 @@ namespace mix_coffeeshop_web.Controllers
             {
                 Id = id,
                 OrderedProducts = filteredProducts,
-                ReferenceCode = id.Substring(5),
+                ReferenceCode = id.Substring(0, 5),
                 OrderDate = DateTime.UtcNow,
                 Username = request.Username,
             };
