@@ -22,7 +22,7 @@ namespace mix_coffeeshop_web_test
         public void CreateNewProductAllDataCorrect(string name, double price, string desc, string thumbURL)
         {
             var mock = new MockRepository(MockBehavior.Default);
-            var repo = mock.Create<mix_coffeeshop_web.Models.IProductRepository>();
+            var repo = mock.Create<mix_coffeeshop_web.Repositories.IProductRepository>();
             var api = new mix_coffeeshop_web.Controllers.ProductController(repo.Object);
             var allProducts = new List<Product>
             {
@@ -44,7 +44,7 @@ namespace mix_coffeeshop_web_test
         public void CreateNewProductSomeDataIncorrect(string name, double price, string desc, string thumbURL)
         {
             var mock = new MockRepository(MockBehavior.Default);
-            var repo = mock.Create<mix_coffeeshop_web.Models.IProductRepository>();
+            var repo = mock.Create<mix_coffeeshop_web.Repositories.IProductRepository>();
             var api = new mix_coffeeshop_web.Controllers.ProductController(repo.Object);
             var allProducts = new List<Product>
             {

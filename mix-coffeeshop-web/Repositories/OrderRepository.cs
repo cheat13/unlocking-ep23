@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Authentication;
+using mix_coffeeshop_web.Models;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 
-namespace mix_coffeeshop_web.Models
+namespace mix_coffeeshop_web.Repositories
 {
     public interface IOrderRepository
     {
@@ -13,23 +14,22 @@ namespace mix_coffeeshop_web.Models
 
     public class OrderRepository : IOrderRepository
     {
-        private IMongoDatabase database;
+        IMongoCollection<Order> Collection { get; set; }
 
-        public OrderRepository()
+        public OrderRepository(DatabaseConfigurations config)
         {
-            string connectionString = @"mongodb://unlocking:3kYTyyRKbVaSMKFdMo9VdnrTAh5YQSv5pxOUOy4WSM9PWX0hRqlOshAwb9eSed5A3wUtmKmUxENs5YjpWyM31Q==@unlocking.documents.azure.com:10255/?ssl=true&replicaSet=globaldb";
-            var settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
+            var settings = MongoClientSettings.FromUrl(new MongoUrl(config.MongoDBConnection));
             settings.SslSettings = new SslSettings()
             {
                 EnabledSslProtocols = SslProtocols.Tls12
             };
             var mongoClient = new MongoClient(settings);
-            database = mongoClient.GetDatabase("unlocking");
+            var database = mongoClient.GetDatabase(config.DatabaseName);
+            Collection = database.GetCollection<Order>("orders");
         }
 
         public void CreateOrder(Order order)
         {
-            var Collection = database.GetCollection<Order>("orders");
             Collection.InsertOne(order);
         }
     }

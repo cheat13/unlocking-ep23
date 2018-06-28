@@ -15,7 +15,7 @@ namespace mix_coffeeshop_web_test
         public void GetAllProductSuccess()
         {
             var mock = new MockRepository(MockBehavior.Default);
-            var repo = mock.Create<mix_coffeeshop_web.Models.IProductRepository>();
+            var repo = mock.Create<mix_coffeeshop_web.Repositories.IProductRepository>();
             var api = new mix_coffeeshop_web.Controllers.ProductController(repo.Object);
             repo.Setup(it => it.GetAllProducts()).Returns(()=> new List<Product>
             {
@@ -32,7 +32,7 @@ namespace mix_coffeeshop_web_test
         public void GetAllProductWhenNoDataInTheStorage()
         {
             var mock = new MockRepository(MockBehavior.Default);
-            var repo = mock.Create<mix_coffeeshop_web.Models.IProductRepository>();
+            var repo = mock.Create<mix_coffeeshop_web.Repositories.IProductRepository>();
             var api = new mix_coffeeshop_web.Controllers.ProductController(repo.Object);
             repo.Setup(it => it.GetAllProducts()).Returns(()=> new List<Product>
             {
@@ -48,7 +48,7 @@ namespace mix_coffeeshop_web_test
         public void GetAnExistingProductFromId(int id, int expectedProductId)
         {
             var mock = new MockRepository(MockBehavior.Default);
-            var repo = mock.Create<mix_coffeeshop_web.Models.IProductRepository>();
+            var repo = mock.Create<mix_coffeeshop_web.Repositories.IProductRepository>();
             var api = new mix_coffeeshop_web.Controllers.ProductController(repo.Object);
             var allProducts = new List<Product>
             {
@@ -68,7 +68,7 @@ namespace mix_coffeeshop_web_test
         public void GetNotExistingProductFromId(int id)
         {
             var mock = new MockRepository(MockBehavior.Default);
-            var repo = mock.Create<mix_coffeeshop_web.Models.IProductRepository>();
+            var repo = mock.Create<mix_coffeeshop_web.Repositories.IProductRepository>();
             var api = new mix_coffeeshop_web.Controllers.ProductController(repo.Object);
             var allProducts = new List<Product>
             {

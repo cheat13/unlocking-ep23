@@ -4,6 +4,7 @@ using FluentAssertions;
 using FluentAssertions.Collections;
 using mix_coffeeshop_web.Controllers;
 using mix_coffeeshop_web.Models;
+using mix_coffeeshop_web.Repositories;
 using Moq;
 using Xunit;
 using System.Linq;

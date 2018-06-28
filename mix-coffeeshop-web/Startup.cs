@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using mix_coffeeshop_web.Models;
+using mix_coffeeshop_web.Repositories;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace mix_coffeeshop_web
@@ -23,9 +24,14 @@ namespace mix_coffeeshop_web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddMvc();
 
+            var dbConfig = Configuration.GetSection(nameof(DatabaseConfigurations)).Get<DatabaseConfigurations>();
+            services.AddTransient<DatabaseConfigurations>(svc => dbConfig);
             services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
+
             // Register the Swagger generator, defindotneting 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
@@ -44,6 +50,10 @@ namespace mix_coffeeshop_web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseCors(builder => 
+                builder.WithOrigins("*")
+                .AllowAnyHeader()
+            );
 
             app.UseStaticFiles();
 
