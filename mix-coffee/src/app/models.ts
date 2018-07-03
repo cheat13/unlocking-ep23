@@ -18,7 +18,7 @@ export class Product {
 }
 
 export class Order {
-    id: string;
+    id: number;
     orderedProducts: Product[];
     username: string;
     orderDate: DateTime;

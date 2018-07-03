@@ -13,7 +13,7 @@ import { Product, Cart, OrderProductResponse } from '../../app/models';
 export class HomePage {
 
   public Host: string = "https://mixcoffee-dev.azurewebsites.net";
-  public Username: string = "somsor-academy@outlook.co.th";
+  public Username: string = "somsor-academy@outlook.cm.th";
 
   public Products: Product[];
   public MyCart: Cart = {
@@ -25,20 +25,18 @@ export class HomePage {
   public errorMsg: string;
 
   constructor(public navCtrl: NavController, public platform: Platform, private http: HTTP) {
-    this.platform.ready().then((readySource) => {
-      if (!this.platform.is('core') && !this.platform.is('mobileweb')) {
-        this.http.get(this.Host + "/Product/Get", {}, {})
-          .then(data => {
-            this.Products = JSON.parse(data.data);
-          })
-          .catch(error => {
-            this.errorMsg = error;
-          });
-      }
-      else {
-        this.Products = this.mockProducts;
-      }
-    });
+    if (!this.platform.is('core') && !this.platform.is('mobileweb')) {
+      this.http.get(this.Host + "/Product/Get", {}, {})
+        .then(data => {
+          this.Products = JSON.parse(data.data);
+        })
+        .catch(error => {
+          this.errorMsg = error;
+        });
+    }
+    else {
+      this.Products = this.mockProducts;
+    }
   }
 
   GoHistory() {
